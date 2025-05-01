@@ -28,7 +28,7 @@ module.exports = async function (fastify, opts) {
   })
 
   fastify.get('/visit_greenspace', async function (request, reply) {
-    const placeId = request.query.placeId;
+    const placeId = request.query.place_id;
     
     db.query("select * from place_visit_count where place_id =?", [placeId])
       .then(function (result) {

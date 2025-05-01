@@ -52,6 +52,8 @@ module.exports = async function (fastify, opts) {
 
     const place_id = request.params.place_id;
 
+    // 触发访问接口
+    /*
     fastify.inject({
       method: 'GET',
       url: '/greenspace/visit_greenspace',
@@ -59,6 +61,7 @@ module.exports = async function (fastify, opts) {
         'placeId': place_id
       }
     });
+    */
 
     // check cache
     const result = await db.query("select * from place_photo where place_id = ?", [place_id]);
@@ -70,6 +73,10 @@ module.exports = async function (fastify, opts) {
     let photo_refs = await getPhotoRef(place_id);
     photo_refs = photo_refs.slice(0, 3);
     const photos = await Promise.all(photo_refs.map(ref => getPhotos(ref)));
+
+    if (photos.length === 0) {
+      return [];
+    }
     
     db.execute("insert into place_photo (place_id, photo) values (?, ?)", [place_id, JSON.stringify(photos)]);
     return photos;
