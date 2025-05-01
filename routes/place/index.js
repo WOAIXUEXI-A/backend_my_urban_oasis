@@ -48,7 +48,17 @@ function getPhotos(photo_refs) {
 
 module.exports = async function (fastify, opts) {
   fastify.get('/photo/:place_id', async function (request, reply) {
+
+
     const place_id = request.params.place_id;
+
+    fastify.inject({
+      method: 'GET',
+      url: '/greenspace/visit_greenspace',
+      query: {
+        'placeId': place_id
+      }
+    });
 
     // check cache
     const result = await db.query("select * from place_photo where place_id = ?", [place_id]);

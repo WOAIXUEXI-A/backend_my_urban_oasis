@@ -8,8 +8,9 @@
   },
   "scripts": {
     "test": "node --test test/**/*.test.js",
-    "start": "fastify start -p 8080 app.js",
-    "dev": "fastify start -w -l info -P app.js"
+    "start": "fastify start -l info -p 8082 app.js",
+    "dev": "fastify start -w -l info -p 8082 -P app.js",
+    "run": "fastify start -l info -p 8082 app.js"
   },
   "keywords": [],
   "author": "",

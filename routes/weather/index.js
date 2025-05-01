@@ -1,5 +1,6 @@
 'use strict'
-const DBUtils = require('../../utils/db-utils')
+const DBUtils = require('../../utils/db-utils');
+const {getDateString} = require('../../utils/date-utils');
 const db = DBUtils.getInstance({});
 const axios = require('axios');
 
@@ -23,12 +24,8 @@ function getWeather() {
 
 module.exports = async function (fastify, opts) {
   fastify.get('/', async function (request, reply) {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const dateString = `${year}-${month}-${day}`;
-
+    // get date string
+    const dateString = getDateString();
     // check cache
     let weather;
     const result = await db.query("select * from weather_info where date = ?", [dateString]);
